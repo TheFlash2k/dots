@@ -1,0 +1,57 @@
+function patchbin_2-26() {
+	patchelf --set-interpreter /opt/glibc-2-26/lib/ld-linux-x86-64.so.2 --set-rpath /opt/glibc-2-26/ $1
+}
+function patchbin_2-27() {
+	patchelf --set-interpreter /opt/glibc-2-27/lib/ld-linux-x86-64.so.2 --set-rpath /opt/glibc-2-27/ $1
+}
+function patchbin_2-27() {
+	patchelf --set-interpreter /opt/glibc-2-27/lib/ld-linux-x86-64.so.2 --set-rpath /opt/glibc-2-27/ $1
+}
+function suid() {
+	sudo chown root:root $1
+	sudo chmod 4755 $1
+}
+
+function set-current() {
+	echo $(pwd) > ~/.current
+}
+
+function get-from-college() {
+	scp "hacker@dojo.pwn.college:/challenge/*" .
+}
+
+function localip() {
+	[[ -z "$1" ]] && echo "No interface specified!" && return 127
+	ip a s "$1" | grep inet | cut -d $'\n' -f1 | awk -F ' ' '{print $2}' | cut -d '/' -f1	
+}
+
+function init_nmap() {
+	[[ ! -d ./nmap ]] && mkdir -p ./nmap
+	[[ -z "$2" ]] && min_rate=1000 || min_rate="$2"
+	[[ -z "$1" ]] && "No ip specified!" && return 127
+	nmap -v -p- --min-rate="$min_rate" -oN nmap/initial -Pn "$1"
+}
+
+function full_nmap() {
+	[[ ! -d ./nmap ]] && mkdir -p ./nmap
+	[[ -z "$1" ]] && "No ip specified!" && return 127
+	[[ -z "$2" ]] && "No ports specified!" && return 127
+	nmap -sC -sV -oN nmap/full_scan -Pn -p "$2" "$1"
+}
+
+## Aliases
+alias college="ssh hacker@dojo.pwn.college"
+# alias ctf="cd /home/pwn/Documents/CTFs/"
+alias current="cd \"$(cat ~/.current)\""
+alias coredumps="ls -la /var/lib/apport/coredump"
+alias docker-compose="docker compose"
+alias oscp="~/Documents/certifications/OSCP"
+
+## Exports:
+export LESS_TERMCAP_mb=$'\e[1;32m'
+export LESS_TERMCAP_md=$'\e[1;32m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;33m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;4;31m'
