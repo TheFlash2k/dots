@@ -39,6 +39,11 @@ function full_nmap() {
 	nmap -sC -sV -oN nmap/full_scan -Pn -p "$2" "$1"
 }
 
+function crackmapexec() {
+	cd /opt/CrackMapExec
+	poetry run crackmapexec "$@"
+}
+
 ## Aliases
 alias college="ssh hacker@dojo.pwn.college"
 # alias ctf="cd /home/pwn/Documents/CTFs/"
