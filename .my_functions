@@ -62,8 +62,8 @@ function setup() {
 
 function get-base() {
 	cp ~/Templates/$1 .
-	file=`basename $(find . -executable -type f ! \( -iname \*.py -o -iname \*.so\* -o -iname \*libc\* -o -iname \*ld\* -o -iname \*.c\* \ ) -print0)`
-	sed -i "s/\.\/EXE/$x/g" $1
+	file=`basename $(find . -executable -type f ! \( -iname \*.py -o -iname \*.so\* -o -iname \*libc\* -o -iname \*ld\* -o -iname \*.c\* \) -print0)`
+	[[ ! -z $file ]] && sed -i "s/\.\/EXE/$file/g" $1
 }
 
 ## Aliases
