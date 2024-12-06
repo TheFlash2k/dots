@@ -1,5 +1,13 @@
 #!/bin/bash
 
+function patchbin() {
+	if [[ -z $1 ]]; then
+		echo "You need to provide the binary name"
+		return 1
+	fi
+	patchelf --set-interpreter /opt/glibc/lib/ld-linux-x86-64.so.2 --set-rpath /opt/glibc/ $1
+}
+
 function patchbin_2-26() {
 	patchelf --set-interpreter /opt/glibc-2-26/lib/ld-linux-x86-64.so.2 --set-rpath /opt/glibc-2-26/ $1
 }
@@ -48,10 +56,15 @@ function connect() {
 	sudo openvpn $file
 }
 
-#function crackmapexec() {
-#	cd /opt/CrackMapExec
-#	poetry run crackmapexec "$@"
-#}
+function setup() {
+	gcloud container clusters get-credentials trustline-staging-cluster --zone "me-central2"
+}
+
+function get-base() {
+	cp ~/Templates/$1 .
+	file=`basename $(find . -executable -type f ! \( -iname \*.py -o -iname \*.so\* -o -iname \*libc\* -o -iname \*ld\* -o -iname \*.c\* \ ) -print0)`
+	sed -i "s/\.\/EXE/$x/g" $1
+}
 
 ## Aliases
 alias college="ssh hacker@dojo.pwn.college"
@@ -59,23 +72,15 @@ alias ctfs="cd ~/Documents/CTFs/"
 alias coredumps="ls -la /var/lib/apport/coredump"
 alias oscp="~/Documents/certifications/OSCP"
 alias clip='xclip -sel clip'
-alias get-exploit="cp ~/Templates/exploit.py ."
-alias get-fmt="cp ~/Templates/exploit-fmt.py ."
-alias get-basic="cp ~/Templates/exploit-basic.py ."
+alias get-exploit="get-base exploit.py"
+alias get-fmt="get-base exploit-fmt.py"
+alias get-basic="get-base exploit-basic.py"
 alias fmt-generator="~/Templates/generate.py"
-
-## Aliases for my ARCH laptop:
-alias yay-i='yay -S --noconfirm'
-alias start_android='emulator -avd Pixel-XL-9 &'
+alias fixperms="chown -R 1000:1000"
+alias docker-compose="docker compose"
 
 ## Exports:
-export LESS_TERMCAP_mb=$'\e[1;32m'
-export LESS_TERMCAP_md=$'\e[1;32m'
-export LESS_TERMCAP_me=$'\e[0m'
-export LESS_TERMCAP_se=$'\e[0m'
-export LESS_TERMCAP_so=$'\e[01;33m'
-export LESS_TERMCAP_ue=$'\e[0m'
-export LESS_TERMCAP_us=$'\e[1;4;31m'
-export MANPAGER="less -R --use-color -Dd+r -Du+b"
-export MANROFFOPT="-P -c"
-
+export LUMINA_TLS=false
+export LUNINA_HOST=localhost
+export LUMINA_PORT=1234
+export DEBUGINFOD_URLS="https://debuginfod.ubuntu.com"
