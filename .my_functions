@@ -62,8 +62,10 @@ function setup() {
 
 function get-base() {
 	cp ~/Templates/$1 .
-	file=`basename $(find . -executable -type f ! \( -iname \*.py -o -iname \*.so\* -o -iname \*libc\* -o -iname \*ld\* -o -iname \*.c\* \) -print0)`
-	[[ ! -z $file ]] && sed -i "s/\.\/EXE/$file/g" $1
+	_found=$(find . -name "*_patched" 2>/dev/null) # force patched binary
+	[[ -z $_found ]] && _found=$((find . -executable -type f ! \( -iname \*.py -o -iname \*.so\* -o -iname \*libc\* -o -iname \*ld\* -o -iname \*.c\* \) -print0) 2>/dev/null)
+	[[ ! -z $_found ]] && file=`basename $_found`
+	[[ ! -z $file ]] && sed -i "s/\.\/EXE/\.\/$file/g" $1
 }
 
 ## Aliases
