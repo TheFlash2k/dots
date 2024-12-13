@@ -61,7 +61,7 @@ function setup() {
 }
 
 function get-base() {
-	cp ~/Templates/$1 .
+	cp ~/Templates/$1 exploit.py
 	_found=$(find . -name "*_patched" 2>/dev/null) # force patched binary
 	[[ -z $_found ]] && _found=$((find . -executable -type f ! \( -iname \*.py -o -iname \*.so\* -o -iname \*libc\* -o -iname \*ld\* -o -iname \*.c\* -o -iname \*.sh\* \) -print0) 2>/dev/null)
 	[[ ! -z $_found ]] && file=`basename $_found`
@@ -77,6 +77,7 @@ alias clip='xclip -sel clip'
 alias get-exploit="get-base exploit.py"
 alias get-fmt="get-base exploit-fmt.py"
 alias get-basic="get-base exploit-basic.py"
+alias get-heap="get-base exploit-heap.py"
 alias fmt-generator="~/Templates/generate.py"
 alias fixperms="chown -R 1000:1000"
 alias docker-compose="docker compose"
