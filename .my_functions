@@ -81,7 +81,7 @@ alias get-heap="get-base exploit-heap.py"
 alias fmt-generator="~/Templates/generate.py"
 alias fixperms="chown -R 1000:1000"
 alias docker-compose="docker compose"
-alias get-kernel-exploit="cp ~/Templates/exploit-kernel.c exploit.c"
+alias get-kernel-exploit="cp ~/Templates/exploit-kernel.c exploit.c && cp ~/Templates/Makefile.kernel-exploit Makefile"
 
 ## Exports:
 export LUMINA_TLS=false
