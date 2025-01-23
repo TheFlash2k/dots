@@ -27,7 +27,7 @@ function set-current() {
 }
 
 function get-from-college() {
-	scp "hacker@dojo.pwn.college:/challenge/*" .
+	scp -r "hacker@dojo.pwn.college:/challenge/*" .
 }
 
 function localip() {
@@ -65,7 +65,7 @@ function get-base() {
 	_found=$(find . -name "*_patched" 2>/dev/null) # force patched binary
 	[[ -z $_found ]] && _found=$((find . -executable -type f ! \( -iname \*.py -o -iname \*.so\* -o -iname \*libc\* -o -iname \*ld\* -o -iname \*.c\* -o -iname \*.sh\* \) -print0) 2>/dev/null)
 	[[ ! -z $_found ]] && file=`basename $_found`
-	[[ ! -z $file ]] && sed -i "s/\.\/EXE/\.\/$file/g" $1
+	[[ ! -z $file ]] && sed -i "s/\.\/EXE/\.\/$file/g" "exploit.py"
 }
 
 ## Aliases
@@ -78,6 +78,7 @@ alias get-exploit="get-base exploit.py"
 alias get-fmt="get-base exploit-fmt.py"
 alias get-basic="get-base exploit-basic.py"
 alias get-heap="get-base exploit-heap.py"
+alias get-college-exploit="get-base exploit-pwncollege.py"
 alias fmt-generator="~/Templates/generate.py"
 alias fixperms="chown -R 1000:1000"
 alias docker-compose="docker compose"
