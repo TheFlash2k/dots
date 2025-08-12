@@ -72,7 +72,7 @@ function get-base() {
 alias college="ssh hacker@dojo.pwn.college"
 alias ctfs="cd ~/Documents/CTFs/"
 alias coredumps="ls -la /var/lib/apport/coredump"
-alias clip='xclip -sel clip'
+alias xclip='/usr/bin/xclip -sel clip'
 alias get-exploit="get-base exploit.py"
 alias get-fmt="get-base exploit-fmt.py"
 alias get-basic="get-base exploit-basic.py"
